@@ -80,23 +80,7 @@ class CacheManager:
 ####################################################
 # PROXY PROVIDER
 ####################################################
-def get_proxy(type_='zyte'):
-    if type_ == 'zyte':
-        proxy_host = "proxy.zyte.com"
-        proxy_port = "8011"
-        proxy_auth = "779455e92d8a42d2822cbea10e8b1aa1:"
-        return {'https': f'http://{proxy_auth}@{proxy_host}:{proxy_port}/',
-                'http': f'http://{proxy_auth}@{proxy_host}:{proxy_port}/'}
 
-    if type_ == 'geonode':
-        username = "geonode_PPNsrcxR9X-type-residential-country-gr"
-        password = "1d2da173-7fb1-4808-ad91-e5ea26382507"
-        GEONODE_DNS = "proxy.geonode.io:9000"
-        proxy = {"http": f"http://{username}:{password}@{GEONODE_DNS}",
-                 "https": f"http://{username}:{password}@{GEONODE_DNS}"}
-        return proxy
-
-    raise Exception('Invalid Proxy type provided')
 
 
 ####################################################
@@ -135,6 +119,10 @@ def main():
 
     # Proxy optional
     # proxy = get_proxy('geonode')
+    proxy_path = 'proxy_cred.json'
+    with open(proxy_path, 'r', encoding = 'utf-8') as f:
+        data = f.read()
+    proxy = json.loads(data)
 
     with Camoufox(
         headless=False, 
@@ -142,7 +130,9 @@ def main():
         user_data_dir='user-data-dir',
         os=('windows'),
         config=config,
-        i_know_what_im_doing=True
+        i_know_what_im_doing=True,
+        geoip=True,
+        proxy=proxy
     ) as browser:
         page = browser.new_page()
 
