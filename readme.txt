@@ -1,0 +1,3 @@
+pip install camoufox
+python -m camoufox
+python -m camoufox.fetch
