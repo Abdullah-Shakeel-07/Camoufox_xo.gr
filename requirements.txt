@@ -1,3 +1,4 @@
 pip install camoufox
+pip install -U "camoufox[geoip]"
 python -m camoufox
 python -m camoufox.fetch
